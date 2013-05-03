@@ -1,5 +1,12 @@
 # Konamio
 
+    gem install konamio
+    
+and
+
+    require "konamio"
+
+
 Default Usage:
 ```ruby
 > Konamio::Sequence::Requisition.new
