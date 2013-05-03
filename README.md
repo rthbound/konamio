@@ -1,4 +1,6 @@
-# Konamio
+## Konamio
+
+![Konami Code](http://images.nintendolife.com/news/2012/01/the_origins_of_the_konami_code_revealed/attachment/0/small.jpg)
 
     gem install konamio
     
@@ -21,7 +23,11 @@ Good job, you.
 
 You can configure it to listen for any sequence you want:
 ```ruby
-> Konamio::Sequence::Requisition.new(sequence: "a".upto("z").to_a.reverse, prompt: "Say the alphabet backwards", confirmation: "Okay, you can go")
+> Konamio::Sequence::Requisition.new({
+    sequence:     "a".upto("z").to_a.reverse,
+    prompt:       "Say the alphabet backwards",
+    confirmation: "Okay, you can go"
+  })
 Say the alphabet backwards
 Okay, you can go
 => #<Konamio::Sequence::Requisition:0x8699bac
@@ -30,4 +36,4 @@ Okay, you can go
  @sequence=["z","y","x",...,"a"]>
 ```
 
-Just something fun for me folks to play with...
+Just something fun...
