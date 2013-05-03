@@ -1,13 +1,20 @@
 module Konamio
   class Prompt < PayDirt::Base
     def initialize(options)
-      load_options(:prompt, options)
+      options = {
+        output: $stdout
+      }.merge(options)
 
-      prompt(@prompt)
+      load_options(:output, :prompt, options)
     end
 
-    def prompt(prompt)
-      puts prompt
+    def execute!
+      @output.puts @prompt
+      return PayDirt::Result.new(success: true, data: { prompted: @prompt })
+    end
+
+    def prompt
+      @output.puts @prompt
     end
   end
 end

@@ -7,20 +7,20 @@ module Konamio
       end
 
       def execute!
-        result = listen(@sequence)
+        result = listen
 
         if result == true
           return PayDirt::Result.new(success: true, data: { sequence: @sequence[1..-1]})
         elsif result == false
-          return PayDirt::Result.new(success: false)
+          return PayDirt::Result.new(success: false, data: {})
         elsif result.nil?
           return PayDirt::Result.new(success: false, data: {terminate: true })
         end
       end
 
-      def listen(sequence)
+      def listen
         case @input.getch
-        when sequence[0]
+        when @sequence[0]
           true
         when "\e"
           nil

@@ -3,24 +3,26 @@ module Konamio
     class Requisition < PayDirt::Base
       def initialize(options={})
         options = {
-          sequence: "\e[A\e[A\e[B\e[B\e[D\e[C\e[D\e[CBA",
+          speaker:      Konamio::Prompt,
+          listener:     Konamio::Sequence::Listener,
+          sequence:     "\e[A\e[A\e[B\e[B\e[D\e[C\e[D\e[CBA",
           prompt:       "Enter konami code (or hit escape)",
           confirmation: "Good job, you."
         }.merge(options)
 
         load_options(:sequence, options)
 
-        prompt(@prompt)
+        prompt
         listen(@sequence)
         finish(false)
       end
 
-      def prompt(prompt)
-        Konamio::Prompt.new(prompt: prompt)
+      def prompt
+        @speaker.new(prompt: @prompt).execute!
       end
 
       def listen(sequence)
-        listener = Konamio::Sequence::Listener.new(sequence: sequence)
+        listener = @listener.new(sequence: sequence)
         received = listener.execute!
 
         if received.successful?
@@ -32,7 +34,7 @@ module Konamio
         elsif received.data[:terminate]
           finish(false)
         else
-          prompt(@prompt)
+          prompt
           listen(@sequence)
         end
       end
