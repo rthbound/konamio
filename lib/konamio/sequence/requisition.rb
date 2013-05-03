@@ -33,7 +33,7 @@ module Konamio
           finish(false)
         else
           prompt(@prompt)
-          listen(sequence)
+          listen(@sequence)
         end
       end
 
