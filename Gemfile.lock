@@ -1,0 +1,26 @@
+PATH
+  remote: .
+  specs:
+    konamio (0.0.1)
+      pay_dirt
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    coderay (1.0.9)
+    method_source (0.8.1)
+    minitest (4.7.0)
+    pay_dirt (0.0.5)
+    pry (0.9.12)
+      coderay (~> 1.0.5)
+      method_source (~> 0.8)
+      slop (~> 3.4)
+    slop (3.4.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  konamio!
+  minitest
+  pry

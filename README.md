@@ -1,1 +1,1 @@
-Konami
+Konamio
