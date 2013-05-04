@@ -20,7 +20,7 @@ describe Konamio::Sequence::Listener do
     assert result.successful?
   end
 
-  it "knows when you're right" do
+  it "knows when you're wrong" do
     @input.expect(:getch, "b")
     result = @subject.new(sequence: @sequence, input: @input).execute!
 
