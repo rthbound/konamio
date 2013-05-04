@@ -44,4 +44,11 @@ describe Konamio::Sequence::Requisition do
   it "must return a result object" do
     assert @subject.new(@options).execute!.successful?
   end
+
+  it "will execute a block on success" do
+    @block_speaker_instance = MiniTest::Mock.new
+    @block_speaker_instance.expect(:execute!, @speaker_result)
+    @speaker.expect(:new,  @speaker_instance,  [{ prompt: "konamio!", output: @output }])
+    assert @subject.new(@options).execute! { @speaker.new(prompt: "konamio!", output: @output) }
+  end
 end
