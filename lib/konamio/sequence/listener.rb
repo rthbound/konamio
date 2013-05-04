@@ -34,7 +34,7 @@ module Konamio
         end
 
         case input
-        when @sequence[0]
+        when Konamio::KeyMap.sequence(@sequence[0])
           true
         when "\e"
           :negative
