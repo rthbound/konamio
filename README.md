@@ -32,3 +32,9 @@ Okay, you can go
   @data={:data=>{:confirmation=>"Okay, you can go"}},
   @success=true>
 ```
+
+You can also specify a block of code to be executed when the sequence is received successfully.
+The following code would prompt the user to enter the konami code twice:
+```
+Konamio::Sequence::Requisition.new.execute! { Konamio::Sequence::Requisition.new.execute! }
+```
