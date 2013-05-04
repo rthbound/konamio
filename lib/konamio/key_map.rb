@@ -1,7 +1,7 @@
 module Konamio
   module KeyMap
     def self.included(base)
-      def sequence(key)
+      def sequence_for(key)
         {
           space:      " ",
           tab:       "\t",

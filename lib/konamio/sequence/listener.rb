@@ -36,7 +36,7 @@ module Konamio
         end
 
         case input
-        when sequence(@sequence[0])
+        when sequence_for(@sequence[0])
           true
         when "\e"
           :negative

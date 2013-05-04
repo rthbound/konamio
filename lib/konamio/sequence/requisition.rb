@@ -6,7 +6,7 @@ module Konamio
         options = {
           speaker:      Konamio::Prompt,
           listener:     Konamio::Sequence::Listener,
-          sequence:     sequence(:konami),
+          sequence:     [:up,:up,:down,:down,:left,:right,:left,:right,"B","A"],
           prompt:       "Enter konami code (or hit escape)",
           confirmation: "Good job, you."
         }.merge(options)
