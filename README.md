@@ -3,37 +3,32 @@
 ![Konami Code](http://images.nintendolife.com/news/2012/01/the_origins_of_the_konami_code_revealed/attachment/0/small.jpg)
 
     gem install konamio
-    
+
 and
 
     require "konamio"
 
 
 Default Usage:
-```ruby
-> Konamio::Sequence::Requisition.new
+```
+> Konamio::Sequence::Requisition.new.execute!
 Enter konami code (or hit escape)
 Good job, you.
-
-=> #<Konamio::Sequence::Requisition:0x8821de4
- @confirmation="Good job, you.",
- @prompt="Enter konami code (or hit escape)",
- @sequence="\e[A\e[A\e[B\e[B\e[D\e[C\e[D\e[CBA">
+=> #<PayDirt::Result:0x937ddb4
+  @data={:data=>{:confirmation=>"Good job, you."}},
+  @success=true>
 ```
 
 You can configure it to listen for any sequence you want:
-```ruby
+```
 > Konamio::Sequence::Requisition.new({
     sequence:     "a".upto("z").to_a.reverse,
     prompt:       "Say the alphabet backwards",
     confirmation: "Okay, you can go"
-  })
+  }).execute!
 Say the alphabet backwards
 Okay, you can go
-=> #<Konamio::Sequence::Requisition:0x8699bac
- @confirmation="Okay, you can go",
- @prompt="Say the alphabet backwards",
- @sequence=["z","y","x",...,"a"]>
+=> #<PayDirt::Result:0x9265788
+  @data={:data=>{:confirmation=>"Okay, you can go"}},
+  @success=true>
 ```
-
-Just something fun...
