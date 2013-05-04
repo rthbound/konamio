@@ -10,7 +10,7 @@ describe Konamio::KeyMap do
   end
 
   it "returns the input provided if no matches are found" do
-    assert @subject.sequence(:konamio) == :konamio
+    assert @subject.sequence_for(:konamio) == :konamio
   end
 
   it "recognizes a number of symbols" do
@@ -26,7 +26,7 @@ describe Konamio::KeyMap do
       :escape,
       :konami
     ].each do |symbol|
-      assert @subject.sequence(symbol) != symbol
+      assert @subject.sequence_for(symbol) != symbol
     end
   end
 end
