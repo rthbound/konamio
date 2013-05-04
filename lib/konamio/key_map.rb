@@ -11,7 +11,8 @@ module Konamio
           up:        "\e[A",
           down:      "\e[B",
           right:     "\e[C",
-          left:      "\e[D"
+          left:      "\e[D",
+          konami:    [:up, :up, :down, :down, :left, :right, :left, :right, "B", "A"]
         }.fetch(key) { key }
       end
     end

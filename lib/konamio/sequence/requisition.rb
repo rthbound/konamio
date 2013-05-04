@@ -1,11 +1,12 @@
 module Konamio
   module Sequence
     class Requisition < PayDirt::Base
+      include Konamio::KeyMap
       def initialize(options={})
         options = {
           speaker:      Konamio::Prompt,
           listener:     Konamio::Sequence::Listener,
-          sequence:     [:up,:up,:down,:down,:left,:right,:left,:right,"B","A"],
+          sequence:     sequence(:konami),
           prompt:       "Enter konami code (or hit escape)",
           confirmation: "Good job, you."
         }.merge(options)
