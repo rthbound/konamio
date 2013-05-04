@@ -11,36 +11,55 @@ module Konamio
         }.merge(options)
 
         load_options(:sequence, options)
-
-        prompt
-        listen(@sequence)
-        finish(false)
       end
 
-      def prompt
-        @speaker.new(prompt: @prompt).execute!
+      def execute!
+        prompt
+        return listen(@sequence)
+      end
+
+      def prompt(prompt = @prompt)
+        @speaker.new(prompt: prompt).execute!
       end
 
       def listen(sequence)
         listener = @listener.new(sequence: sequence)
         received = listener.execute!
+        signal   = received.data[:sequence]
 
-        if received.successful?
-          if received.data[:sequence].empty?
-            puts @confirmation and finish
-          else
-            listen(received.data[:sequence])
-          end
-        elsif received.data[:terminate]
-          finish(false)
-        else
+
+        prompt(@confirmation) and return result(true, data: { confirmation: @confirmation }) if signal.empty?
+
+        case signal
+        when :negative
+          prompt("Goodbye!")
+          result(false, data: { confirmation: "User terminated." })
+        when sequence
           prompt
           listen(@sequence)
+        when sequence[1..-1]
+          listen received.data[:sequence]
+        else
+          result(false, data: { confirmation: "Unexpected termination" })
         end
+        #if received.successful?
+        #  if received.data[:sequence].empty?
+        #    prompt(@confirmation)
+        #    result(true, data: { confirmation: @confirmation })
+        #  else
+        #    listen(received.data[:sequence])
+        #  end
+        #elsif received.data[:terminate]
+        #  prompt("Goodbye!")
+        #  result(false, data: { confirmation: :negative })
+        #else
+        #  prompt
+        #  listen(@sequence)
+        #end
       end
 
-      def finish(successful)
-        return PayDirt::Result.new(success: successful)
+      def result(success, data={})
+        PayDirt::Result.new(success: success, data: data)
       end
     end
   end

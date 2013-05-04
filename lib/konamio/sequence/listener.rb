@@ -7,14 +7,15 @@ module Konamio
       end
 
       def execute!
-        result = listen
-
-        if result == true
+        case listen
+        when true
           return PayDirt::Result.new(success: true, data: { sequence: @sequence[1..-1]})
-        elsif result == false
-          return PayDirt::Result.new(success: false, data: {})
-        elsif result.nil?
-          return PayDirt::Result.new(success: false, data: {terminate: true })
+        when false
+          return PayDirt::Result.new(success: false, data: { sequence: @sequence })
+        when :negative
+          return PayDirt::Result.new(success: false, data: { sequence: :negative })
+        else
+          return PayDirt::Result.new(success: false, data: { sequence: @sequence })
         end
       end
 
@@ -23,7 +24,7 @@ module Konamio
         when @sequence[0]
           true
         when "\e"
-          nil
+          :negative
         else
           false
         end

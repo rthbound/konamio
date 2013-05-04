@@ -15,4 +15,7 @@ describe Konamio::Sequence::Requisition do
   it "can be initialized" do
     @subject.must_respond_to :new
   end
+
+  it "returns a result object" do
+  end
 end
