@@ -20,7 +20,20 @@ module Konamio
       end
 
       def listen
-        case @input.getch
+        input = @input.getch
+        if(input == "\e")
+          extra_thread = Thread.new{
+            input << @input.getch
+            input << @input.getch
+          }
+
+          # wait just long enough for special keys to get swallowed
+          extra_thread.join(0.00001)
+          # kill thread so not-so-long special keys don't wait on getc
+          extra_thread.kill
+        end
+
+        case input
         when @sequence[0]
           true
         when "\e"
