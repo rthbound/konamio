@@ -4,6 +4,8 @@ module Konamio
       include Konamio::KeyMap
       def initialize(options={})
         options = {
+          output:       $stdout,
+          input:        $stdin,
           speaker:      Konamio::Prompt,
           listener:     Konamio::Sequence::Listener,
           sequence:     [:up,:up,:down,:down,:left,:right,:left,:right,"B","A"],
@@ -14,20 +16,21 @@ module Konamio
         load_options(:sequence, options)
       end
 
-      def execute!
+      def execute! &block
         prompt
-        return listen(@sequence)
+        result = listen(@sequence)
+        yield if block_given? && result.successful?
+        return result
       end
 
       def prompt(prompt = @prompt)
-        @speaker.new(prompt: prompt).execute!
+        @speaker.new(prompt: prompt, output: @output).execute!
       end
 
       def listen(sequence)
-        listener = @listener.new(sequence: sequence)
+        listener = @listener.new(sequence: sequence, input: @input)
         received = listener.execute!
         signal   = received.data[:sequence]
-
 
         prompt(@confirmation) and return result(true, data: { confirmation: @confirmation }) if signal.empty?
 
