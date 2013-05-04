@@ -2,7 +2,11 @@ require "minitest_helper"
 
 describe Konamio::KeyMap do
   before do
-    @subject = Konamio::KeyMap
+    class TestCase
+      include Konamio::KeyMap
+    end
+
+    @subject = TestCase.new
   end
 
   it "returns the input provided if no matches are found" do

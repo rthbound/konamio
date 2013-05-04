@@ -1,6 +1,8 @@
 module Konamio
   module Sequence
     class Listener < PayDirt::Base
+      include Konamio::KeyMap
+
       def initialize(options)
         options = { input: $stdin, debounce: 0.0001 }.merge(options)
         load_options(:sequence, options)
@@ -34,7 +36,7 @@ module Konamio
         end
 
         case input
-        when Konamio::KeyMap.sequence(@sequence[0])
+        when sequence(@sequence[0])
           true
         when "\e"
           :negative
