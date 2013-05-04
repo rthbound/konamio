@@ -2,7 +2,7 @@ module Konamio
   module Sequence
     class Listener < PayDirt::Base
       def initialize(options)
-        options = { input: $stdin }.merge(options)
+        options = { input: $stdin, debounce: 0.0001 }.merge(options)
         load_options(:sequence, options)
       end
 
@@ -28,7 +28,7 @@ module Konamio
           }
 
           # wait just long enough for special keys to get swallowed
-          extra_thread.join(0.00001)
+          extra_thread.join(@debounce)
           # kill thread so not-so-long special keys don't wait on getc
           extra_thread.kill
         end
