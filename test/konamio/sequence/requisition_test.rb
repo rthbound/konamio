@@ -37,7 +37,11 @@ describe Konamio::Sequence::Requisition do
     @subject.must_respond_to :new
   end
 
-  it "returns a result object" do
-    @subject.new(@options).execute!
+  it "must execute" do
+    @subject.new(@options).must_respond_to :execute!
+  end
+
+  it "must return a result object" do
+    assert @subject.new(@options).execute!.successful?
   end
 end
