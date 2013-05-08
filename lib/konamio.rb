@@ -1,4 +1,5 @@
 require "pay_dirt"
+require "io/console"
 
 require_relative 'konamio/key_map'
 require_relative 'konamio/sequence/listener'
