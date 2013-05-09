@@ -38,3 +38,7 @@ The following code would prompt the user to enter the konami code twice:
 ```
 Konamio::Sequence::Requisition.new.execute! { Konamio::Sequence::Requisition.new.execute! }
 ```
+This would give you +30 lives:
+```
+Konamio::Sequence::Requisition.new.execute! { 30.times { puts "+1up" } }
+```
