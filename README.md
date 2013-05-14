@@ -42,3 +42,21 @@ This would give you +30 lives:
 ```
 Konamio::Sequence::Requisition.new.execute! { 30.times { puts "+1up" } }
 ```
+
+## More fun
+
+**"Password protect"** your rails console by doing the following:
+
+1. Follow these [instructions](http://samuelmullen.com/2010/04/irb-global-local-irbrc/) to obtain a `.irbrc` file that loads your local `.irbrc`
+2. Add this gem to your rails project, then create a `.irbrc` file for the project containing
+
+
+```ruby
+require "konamio"
+Konamio::Sequence::Requisition.new.execute!
+```
+    
+to require console users to enter the konami code, or to require some other password:
+
+    require "konamio"
+    Konamio::Sequence::Requisition.new(sequence: "foobar")
