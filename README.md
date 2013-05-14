@@ -59,4 +59,4 @@ Konamio::Sequence::Requisition.new.execute!
 to require console users to enter the konami code, or to require some other password:
 
     require "konamio"
-    Konamio::Sequence::Requisition.new(sequence: "foobar")
+    Konamio::Sequence::Requisition.new(sequence: "foobar").execute!
