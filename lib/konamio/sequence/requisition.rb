@@ -10,7 +10,8 @@ module Konamio
           listener:     Konamio::Sequence::Listener,
           sequence:     [:up,:up,:down,:down,:left,:right,:left,:right,"B","A"],
           prompt:       "Enter konami code (or hit escape)",
-          confirmation: "Good job, you."
+          confirmation: "Good job, you.",
+          cancellation: "Goodbye!"
         }.merge(options)
 
         load_options(:sequence, options)
@@ -36,7 +37,7 @@ module Konamio
 
         case signal
         when :negative
-          prompt("Goodbye!")
+          prompt(@cancellation)
           result(false, data: { confirmation: "User terminated." })
         when sequence
           prompt
