@@ -1,7 +1,5 @@
 # Testing frameworks
-require "minitest/spec"
 require "minitest/autorun"
-require "minitest/mock"
 
 # Debugger
 require "pry"
