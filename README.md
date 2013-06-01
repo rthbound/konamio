@@ -1,5 +1,4 @@
-## Konamio
-[![Build Status](https://travis-ci.org/rthbound/konamio.png?branch=master)](https://travis-ci.org/rthbound/konamio)
+## Konamio [![Build Status](https://travis-ci.org/rthbound/konamio.png?branch=master)](https://travis-ci.org/rthbound/konamio) [![Gem Version](https://badge.fury.io/rb/konamio.png)](http://badge.fury.io/rb/konamio)
 
 ![Konami Code](http://images.nintendolife.com/news/2012/01/the_origins_of_the_konami_code_revealed/attachment/0/small.jpg)
 
