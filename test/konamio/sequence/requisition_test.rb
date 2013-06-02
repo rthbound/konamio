@@ -16,16 +16,24 @@ describe Konamio::Sequence::Requisition do
     @speaker_instance = MiniTest::Mock.new
     @speaker_result   = MiniTest::Mock.new
     @speaker_instance.expect(:execute!, @speaker_result)
+    @speaker_instance.expect(:execute!, @speaker_result)
 
     @listener_instance = MiniTest::Mock.new
     @listener_result   = MiniTest::Mock.new
+    @listener_instance.expect(:execute!, @listener_result)
     @listener_instance.expect(:execute!, @listener_result)
 
     @speaker.expect(:new,  @speaker_instance,  [{ prompt: @prompt, output: @output }])
     @listener.expect(:new, @listener_instance, [{ sequence: @sequence, input: @input }])
     @data_hash = MiniTest::Mock.new
     @listener_result.expect(:data, @data_hash)
-    @data_hash.expect(:[], "", [:sequence])
+    @data_hash.expect(:[], ["a"], [:sequence])
+
+    @speaker.expect(:new,  @speaker_instance,  [{ prompt: @prompt, output: @output }])
+    @listener.expect(:new, @listener_instance, [{ sequence: @sequence, input: @input }])
+    @data_hash = MiniTest::Mock.new
+    @listener_result.expect(:data, @data_hash)
+    @data_hash.expect(:[], [], [:sequence])
 
     @speaker_confirmation_instance = MiniTest::Mock.new
     @speaker_confirmation_result = MiniTest::Mock.new

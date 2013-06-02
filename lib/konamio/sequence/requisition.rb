@@ -43,7 +43,7 @@ module Konamio
           prompt
           listen(@sequence)
         when sequence[1..-1]
-          listen received.data[:sequence]
+          listen signal
         else
           result(false, data: { confirmation: "Unexpected termination" })
         end

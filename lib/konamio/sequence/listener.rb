@@ -16,8 +16,6 @@ module Konamio
           return PayDirt::Result.new(success: false, data: { sequence: @sequence })
         when :negative
           return PayDirt::Result.new(success: false, data: { sequence: :negative })
-        else
-          return PayDirt::Result.new(success: false, data: { sequence: @sequence })
         end
       end
 

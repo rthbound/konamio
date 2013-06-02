@@ -9,7 +9,7 @@ module Konamio
     end
 
     def execute!
-      @output.puts @prompt
+      prompt
       return PayDirt::Result.new(success: true, data: { prompted: @prompt })
     end
 

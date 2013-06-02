@@ -27,4 +27,14 @@ describe Konamio::Sequence::Listener do
     assert @input.verify
     assert !result.successful?
   end
+
+  it "lets you escape" do
+    @input.expect(:getch, "\e")
+    @input.expect(:getch, "")
+    @input.expect(:getch, "")
+    result = @subject.new(sequence: @sequence, input: @input).execute!
+
+    assert @input.verify
+    assert !result.successful?
+  end
 end
