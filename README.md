@@ -1,4 +1,6 @@
-## Konamio [![Gem Version](https://badge.fury.io/rb/konamio.png)](http://badge.fury.io/rb/konamio)  [![Build Status](https://travis-ci.org/rthbound/konamio.png?branch=master)](https://travis-ci.org/rthbound/konamio) [![Coverage Status](https://coveralls.io/repos/rthbound/konamio/badge.png)](https://coveralls.io/r/rthbound/konamio)
+## Konamio
+
+[![Gem Version](https://badge.fury.io/rb/konamio.png)](http://badge.fury.io/rb/konamio)  [![Build Status](https://travis-ci.org/rthbound/konamio.png?branch=master)](https://travis-ci.org/rthbound/konamio) [![Coverage Status](https://coveralls.io/repos/rthbound/konamio/badge.png)](https://coveralls.io/r/rthbound/konamio)
 
 
 ![Konami Code](http://images.nintendolife.com/news/2012/01/the_origins_of_the_konami_code_revealed/attachment/0/small.jpg)
