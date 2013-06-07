@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Konamio by rthbound</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Konamio</h1>
+        <p>It listens for the konami code (or whatever sequence you specify)</p>
+
+        <p class="view"><a href="https://github.com/rthbound/konamio">View the Project on GitHub <small>rthbound/konamio</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/rthbound/konamio/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/rthbound/konamio/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/rthbound/konamio">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>
+<a name="konamio" class="anchor" href="#konamio"><span class="octicon octicon-link"></span></a>Konamio</h2>
+
+<p><a href="http://badge.fury.io/rb/konamio"><img src="https://badge.fury.io/rb/konamio.png" alt="Gem Version"></a>  <a href="https://travis-ci.org/rthbound/konamio"><img src="https://travis-ci.org/rthbound/konamio.png?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/r/rthbound/konamio"><img src="https://coveralls.io/repos/rthbound/konamio/badge.png" alt="Coverage Status"></a></p>
+
+<pre><code>gem install konamio
+</code></pre>
+
+<p>and</p>
+
+<pre><code>require "konamio"
+</code></pre>
+
+<p>Default Usage:</p>
+
+<pre><code>&gt; Konamio::Sequence::Requisition.new.execute!
+Enter konami code (or hit escape)
+Good job, you.
+=&gt; #&lt;PayDirt::Result:0x937ddb4
+  @data={:data=&gt;{:confirmation=&gt;"Good job, you."}},
+  @success=true&gt;
+</code></pre>
+
+<p>You can configure it to listen for any sequence you want:</p>
+
+<pre><code>&gt; Konamio::Sequence::Requisition.new({
+    sequence:     "a".upto("z").to_a.reverse,
+    prompt:       "Say the alphabet backwards",
+    confirmation: "Okay, you can go"
+  }).execute!
+Say the alphabet backwards
+Okay, you can go
+=&gt; #&lt;PayDirt::Result:0x9265788
+  @data={:data=&gt;{:confirmation=&gt;"Okay, you can go"}},
+  @success=true&gt;
+</code></pre>
+
+<p>You can also specify a block of code to be executed when the sequence is received successfully.
+The following code would prompt the user to enter the konami code twice:</p>
+
+<pre><code>Konamio::Sequence::Requisition.new.execute! { Konamio::Sequence::Requisition.new.execute! }
+</code></pre>
+
+<p>This would give you +30 lives:</p>
+
+<pre><code>Konamio::Sequence::Requisition.new.execute! { 30.times { puts "+1up" } }
+</code></pre>
+
+<h2>
+<a name="more-fun" class="anchor" href="#more-fun"><span class="octicon octicon-link"></span></a>More fun</h2>
+
+<p><strong>"Password protect"</strong> your rails console by doing the following:</p>
+
+<ol>
+<li>Follow these <a href="http://samuelmullen.com/2010/04/irb-global-local-irbrc/">instructions</a> to obtain a <code>.irbrc</code> file that loads your local <code>.irbrc</code>
+</li>
+<li>Add this gem to your rails project, then create a <code>.irbrc</code> file for the project containing</li>
+</ol><div class="highlight"><pre><span class="nb">require</span> <span class="s2">"konamio"</span>
+<span class="ss">Konamio</span><span class="p">:</span><span class="ss">:Sequence</span><span class="o">::</span><span class="no">Requisition</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">execute!</span>
+</pre></div>
+
+<p>to require console users to enter the konami code, or to require some other password:</p>
+
+<pre><code>require "konamio"
+Konamio::Sequence::Requisition.new(sequence: "foobar").execute!
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/rthbound">rthbound</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
