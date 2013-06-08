@@ -1,6 +1,6 @@
 module Konamio
   module Sequence
-    class Listener < PayDirt::Base
+    class Listener < Konamio::Base
       include Konamio::KeyMap
 
       def initialize(options)
@@ -11,11 +11,11 @@ module Konamio
       def execute!
         case listen
         when true
-          return PayDirt::Result.new(success: true, data: { sequence: @sequence[1..-1]})
+          return Konamio::Result.new(success: true, data: { sequence: @sequence[1..-1]})
         when false
-          return PayDirt::Result.new(success: false, data: { sequence: @sequence })
+          return Konamio::Result.new(success: false, data: { sequence: @sequence })
         when :negative
-          return PayDirt::Result.new(success: false, data: { sequence: :negative })
+          return Konamio::Result.new(success: false, data: { sequence: :negative })
         end
       end
 

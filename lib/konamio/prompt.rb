@@ -1,5 +1,5 @@
 module Konamio
-  class Prompt < PayDirt::Base
+  class Prompt < Konamio::Base
     def initialize(options)
       options = {
         output: $stdout
@@ -10,7 +10,7 @@ module Konamio
 
     def execute!
       prompt
-      return PayDirt::Result.new(success: true, data: { prompted: @prompt })
+      return Konamio::Result.new(success: true, data: { prompted: @prompt })
     end
 
     def prompt
