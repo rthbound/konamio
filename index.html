@@ -15,7 +15,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <img src='https://raw.github.com/rthbound/konamio/gh-pages/images/konamio.png' />
+        <h1>Konamio</h1>
         <p>It listens for the konami code (or whatever sequence you specify)</p>
 
         <p class="view"><a href="https://github.com/rthbound/konamio">View the Project on GitHub <small>rthbound/konamio</small></a></p>
@@ -31,7 +31,7 @@
         <h2>
 <a name="konamio" class="anchor" href="#konamio"><span class="octicon octicon-link"></span></a>Konamio</h2>
 
-<p><a href="http://badge.fury.io/rb/konamio"><img src="https://badge.fury.io/rb/konamio.png" alt="Gem Version"></a>  <a href="https://travis-ci.org/rthbound/konamio"><img src="https://travis-ci.org/rthbound/konamio.png?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/r/rthbound/konamio"><img src="https://coveralls.io/repos/rthbound/konamio/badge.png" alt="Coverage Status"></a> <a href="https://codeclimate.com/github/rthbound/konamio"><img src="https://codeclimate.com/github/rthbound/konamio.png" /></a></p>
+<p><a href="http://badge.fury.io/rb/konamio"><img src="https://badge.fury.io/rb/konamio.png" alt="Gem Version"></a>  <a href="https://travis-ci.org/rthbound/konamio"><img src="https://travis-ci.org/rthbound/konamio.png?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/r/rthbound/konamio"><img src="https://coveralls.io/repos/rthbound/konamio/badge.png" alt="Coverage Status"></a> <a href="https://codeclimate.com/github/rthbound/konamio"><img src="https://codeclimate.com/github/rthbound/konamio.png" alt="Code Climate"></a></p>
 
 <pre><code>gem install konamio
 </code></pre>
@@ -41,40 +41,65 @@
 <pre><code>require "konamio"
 </code></pre>
 
-<p>Default Usage:</p>
+<h3>
+<a name="default-usage" class="anchor" href="#default-usage"><span class="octicon octicon-link"></span></a>Default Usage</h3>
 
 <pre><code>&gt; Konamio::Sequence::Requisition.new.execute!
 Enter konami code (or hit escape)
 Good job, you.
-=&gt; #&lt;PayDirt::Result:0x937ddb4
+=&gt; #&lt;Konamio::Result:0x937ddb4
   @data={:data=&gt;{:confirmation=&gt;"Good job, you."}},
   @success=true&gt;
 </code></pre>
 
-<p>You can configure it to listen for any sequence you want:</p>
+<h3>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h3>
 
-<pre><code>&gt; Konamio::Sequence::Requisition.new({
-    sequence:     "a".upto("z").to_a.reverse,
-    prompt:       "Say the alphabet backwards",
-    confirmation: "Okay, you can go"
-  }).execute!
-Say the alphabet backwards
-Okay, you can go
-=&gt; #&lt;PayDirt::Result:0x9265788
-  @data={:data=&gt;{:confirmation=&gt;"Okay, you can go"}},
-  @success=true&gt;
-</code></pre>
+<h4>
+<a name="sequences" class="anchor" href="#sequences"><span class="octicon octicon-link"></span></a>Sequences</h4>
 
-<p>You can also specify a block of code to be executed when the sequence is received successfully.
-The following code would prompt the user to enter the konami code twice:</p>
+<p>You can configure it to listen for any ascii based sequence you want. This can be specified using a string (<code>"foobar"</code>) or an array of recognized symbols and one character strings (escaped characters are okay, e.g. <code>[:up, "1", "2", "3", "\t"]</code>):</p>
 
-<pre><code>Konamio::Sequence::Requisition.new.execute! { Konamio::Sequence::Requisition.new.execute! }
-</code></pre>
+<div class="highlight"><pre><span class="o">&gt;</span> <span class="ss">Konamio</span><span class="p">:</span><span class="ss">:Sequence</span><span class="o">::</span><span class="no">Requisition</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+    <span class="ss">sequence</span><span class="p">:</span>     <span class="s2">"a"</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="s2">"z"</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span><span class="o">.</span><span class="n">reverse</span><span class="p">,</span>
+    <span class="ss">prompt</span><span class="p">:</span>       <span class="s2">"Say the alphabet backwards"</span><span class="p">,</span>
+    <span class="ss">confirmation</span><span class="p">:</span> <span class="s2">"Okay, you can go"</span>
+  <span class="p">})</span><span class="o">.</span><span class="n">execute!</span>
+<span class="no">Say</span> <span class="n">the</span> <span class="n">alphabet</span> <span class="n">backwards</span>
+<span class="no">Okay</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">go</span>
+<span class="o">=&gt;</span> <span class="c1">#&lt;Konamio::Result:0x9265788</span>
+  <span class="vi">@data</span><span class="o">=</span><span class="p">{</span><span class="ss">:data</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:confirmation</span><span class="o">=&gt;</span><span class="s2">"Okay, you can go"</span><span class="p">}},</span>
+  <span class="vi">@success</span><span class="o">=</span><span class="kp">true</span><span class="o">&gt;</span>
+</pre></div>
+
+<h4>
+<a name="output" class="anchor" href="#output"><span class="octicon octicon-link"></span></a>Output</h4>
+
+<p>There are three dialogs that Konamio might send to standard out.</p>
+
+<ol>
+<li>
+<code>:prompt</code> is the dialog displayed initially, and each time the user fails to supply the proper sequence.</li>
+<li>
+<code>:confirmation</code> is displayed when the required sequence is entered properly.</li>
+<li>
+<code>:cancellation</code> is displayed when user terminates by pressing the escape key.</li>
+</ol><p>You can customize any of these dialogs, or disable them individually by passing a falsey value.</p>
+
+<h4>
+<a name="success" class="anchor" href="#success"><span class="octicon octicon-link"></span></a>Success!</h4>
+
+<p>It would be boring if all Konamio did was return a result object. In fact, <code>Konamio::Sequence::Requisition#execute!</code> takes a block, and will execute that block when the sequence has been successfully entered. You're limited only by your imagination and the context of your application.</p>
+
+<p>The following code would prompt the user to enter the konami code twice:</p>
+
+<div class="highlight"><pre><span class="ss">Konamio</span><span class="p">:</span><span class="ss">:Sequence</span><span class="o">::</span><span class="no">Requisition</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">execute!</span> <span class="p">{</span> <span class="ss">Konamio</span><span class="p">:</span><span class="ss">:Sequence</span><span class="o">::</span><span class="no">Requisition</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">execute!</span> <span class="p">}</span>
+</pre></div>
 
 <p>This would give you +30 lives:</p>
 
-<pre><code>Konamio::Sequence::Requisition.new.execute! { 30.times { puts "+1up" } }
-</code></pre>
+<div class="highlight"><pre><span class="ss">Konamio</span><span class="p">:</span><span class="ss">:Sequence</span><span class="o">::</span><span class="no">Requisition</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">execute!</span> <span class="p">{</span> <span class="mi">30</span><span class="o">.</span><span class="n">times</span> <span class="p">{</span> <span class="nb">puts</span> <span class="s2">"+1up"</span> <span class="p">}</span> <span class="p">}</span>
+</pre></div>
 
 <h2>
 <a name="more-fun" class="anchor" href="#more-fun"><span class="octicon octicon-link"></span></a>More fun</h2>
@@ -86,14 +111,10 @@ The following code would prompt the user to enter the konami code twice:</p>
 </li>
 <li>Add this gem to your rails project, then create a <code>.irbrc</code> file for the project containing</li>
 </ol><div class="highlight"><pre><span class="nb">require</span> <span class="s2">"konamio"</span>
-<span class="ss">Konamio</span><span class="p">:</span><span class="ss">:Sequence</span><span class="o">::</span><span class="no">Requisition</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">execute!</span>
+<span class="ss">Konamio</span><span class="p">:</span><span class="ss">:Sequence</span><span class="o">::</span><span class="no">Requisition</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">prompt</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">confirmation</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span> <span class="ss">cancellation</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span><span class="o">.</span><span class="n">execute!</span>
 </pre></div>
 
-<p>to require console users to enter the konami code, or to require some other password:</p>
-
-<pre><code>require "konamio"
-Konamio::Sequence::Requisition.new(sequence: "foobar").execute!
-</code></pre>
+<p>to require console users to enter the konami code. This funny trick obviously does not provide any real protection, but it would certainly make for a nasty practical joke.</p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/rthbound">rthbound</a></p>
