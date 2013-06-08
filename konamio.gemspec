@@ -7,9 +7,9 @@ Gem::Specification.new do |s|
   s.version     = Konamio::VERSION
   s.authors     = ["Tad Hosford"]
   s.email       = ["tad.hosford@gmail.com"]
-  s.homepage    = "https://github.com/rthbound/konamio"
-  s.summary     = "I'm gonna recognize the konami sequence"
-  s.description = "Recognize sequences in Ruby... just for fun."
+  s.homepage    = "https://rthbound.github.io/konamio"
+  s.summary     = "The Ruby Konami code gem."
+  s.description = "Tell it which sequence to listen for and what to do when the sequence is received."
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test}/*`.split("\n")

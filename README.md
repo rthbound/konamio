@@ -12,18 +12,23 @@ and
     require "konamio"
 
 
-Default Usage:
+### Default Usage
 ```
 > Konamio::Sequence::Requisition.new.execute!
 Enter konami code (or hit escape)
 Good job, you.
-=> #<PayDirt::Result:0x937ddb4
+=> #<Konamio::Result:0x937ddb4
   @data={:data=>{:confirmation=>"Good job, you."}},
   @success=true>
 ```
 
-You can configure it to listen for any sequence you want:
-```
+### Configuration
+
+#### Sequences
+
+You can configure it to listen for any ascii based sequence you want. This can be specified using a string (`"foobar"`) or an array of recognized symbols and one character strings (escaped characters are okay, e.g. `[:up, "1", "2", "3", "\t"]`):
+
+```ruby
 > Konamio::Sequence::Requisition.new({
     sequence:     "a".upto("z").to_a.reverse,
     prompt:       "Say the alphabet backwards",
@@ -31,18 +36,31 @@ You can configure it to listen for any sequence you want:
   }).execute!
 Say the alphabet backwards
 Okay, you can go
-=> #<PayDirt::Result:0x9265788
+=> #<Konamio::Result:0x9265788
   @data={:data=>{:confirmation=>"Okay, you can go"}},
   @success=true>
 ```
 
-You can also specify a block of code to be executed when the sequence is received successfully.
+#### Output
+
+There are three dialogs that Konamio might send to standard out.
+
+1. `:prompt` is the dialog displayed initially, and each time the user fails to supply the proper sequence.
+2. `:confirmation` is displayed when the required sequence is entered properly.
+3. `:cancellation` is displayed when user terminates by pressing the escape key.
+
+You can customize any of these dialogs, or disable them individually by passing a falsey value.
+
+#### Success!
+
+It would be boring if all Konamio did was return a result object. In fact, `Konamio::Sequence::Requisition#execute!` takes a block, and will execute that block when the sequence has been successfully entered. You're limited only by your imagination and the context of your application.
+
 The following code would prompt the user to enter the konami code twice:
-```
+```ruby
 Konamio::Sequence::Requisition.new.execute! { Konamio::Sequence::Requisition.new.execute! }
 ```
 This would give you +30 lives:
-```
+```ruby
 Konamio::Sequence::Requisition.new.execute! { 30.times { puts "+1up" } }
 ```
 
@@ -56,10 +74,7 @@ Konamio::Sequence::Requisition.new.execute! { 30.times { puts "+1up" } }
 
 ```ruby
 require "konamio"
-Konamio::Sequence::Requisition.new.execute!
+Konamio::Sequence::Requisition.new(prompt: false, confirmation: false, cancellation: false).execute!
 ```
-    
-to require console users to enter the konami code, or to require some other password:
 
-    require "konamio"
-    Konamio::Sequence::Requisition.new(sequence: "foobar").execute!
+to require console users to enter the konami code. This funny trick obviously does not provide any real protection, but it would certainly make for a nasty practical joke.
