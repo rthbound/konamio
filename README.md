@@ -2,7 +2,6 @@
 
 [![Gem Version](https://badge.fury.io/rb/konamio.png)](http://badge.fury.io/rb/konamio)  [![Build Status](https://travis-ci.org/rthbound/konamio.png?branch=master)](https://travis-ci.org/rthbound/konamio) [![Coverage Status](https://coveralls.io/repos/rthbound/konamio/badge.png)](https://coveralls.io/r/rthbound/konamio) [![Code Climate](https://codeclimate.com/github/rthbound/konamio.png)](https://codeclimate.com/github/rthbound/konamio)
 
-
 ![Konami Code](http://images.nintendolife.com/news/2012/01/the_origins_of_the_konami_code_revealed/attachment/0/small.jpg)
 
     gem install konamio
@@ -26,7 +25,10 @@ Good job, you.
 
 #### Sequences
 
-You can configure it to listen for any ascii based sequence you want using the `:sequence` option. This can be specified using a string (`"foobar"`) or an array of recognized symbols and one character strings (escaped characters are okay, e.g. `[:up, "1", "2", "3", "\t"]`):
+You can configure it to listen for any ascii based sequence you want
+using the `:sequence` option. This can be specified using a string
+(`"foobar"`) or an array of recognized symbols and one-character strings
+(escaped charactersare okay, e.g. `[:up, "1", "2", "3", "\t"]`):
 
 ```
 > Konamio::Sequence::Requisition.new({
@@ -43,7 +45,7 @@ Okay, you can go
 
 #### Output
 
-There are three dialogs that Konamio might send to standard out.
+There are three dialogs that Konamio might send to stdout.
 
 1. `:prompt` is the dialog displayed initially, and each time the user fails to supply the proper sequence.
 2. `:confirmation` is displayed when the required sequence is entered properly.
@@ -53,7 +55,11 @@ You can customize any of these dialogs, or disable them individually by passing 
 
 #### Success!
 
-It would be boring if all Konamio did was return a result object. In fact, `Konamio::Sequence::Requisition#execute!` takes a block, and will execute that block when the sequence has been successfully entered. You're limited only by your imagination and the context of your application.
+It would be boring if all Konamio did was return a result object. That's why
+`Konamio::Sequence::Requisition#execute!` **takes a block**, and will execute
+that block when the sequence has been successfully entered. You're limited only
+by your imagination and the context of your application. Konamio will supply
+the value of the sequence to the block.
 
 The following code would prompt the user to enter the konami code twice:
 ```ruby

@@ -24,13 +24,14 @@ module Konamio
       end
 
       # @api public
+      # @yield [sequence] Gives the sequence to the block
       # @yieldreturn The result of a block, if supplied
       # @return Konamio::Result
       def execute! &block
         prompt
 
         result = listen(@sequence)
-        yield if block_given? && result.successful?
+        yield(@sequence) if block_given? && result.successful?
 
         result
       end
