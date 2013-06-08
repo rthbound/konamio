@@ -15,7 +15,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <img src='https://raw.github.com/rthbound/konamio/gh-pages/images/konamio.png' />
+        <h1>Konamio</h1>
         <p>It listens for the konami code (or whatever sequence you specify)</p>
 
         <p class="view"><a href="https://github.com/rthbound/konamio">View the Project on GitHub <small>rthbound/konamio</small></a></p>
@@ -58,24 +58,27 @@ Good job, you.
 <h4>
 <a name="sequences" class="anchor" href="#sequences"><span class="octicon octicon-link"></span></a>Sequences</h4>
 
-<p>You can configure it to listen for any ascii based sequence you want. This can be specified using a string (<code>"foobar"</code>) or an array of recognized symbols and one character strings (escaped characters are okay, e.g. <code>[:up, "1", "2", "3", "\t"]</code>):</p>
+<p>You can configure it to listen for any ascii based sequence you want
+using the <code>:sequence</code> option. This can be specified using a string
+(<code>"foobar"</code>) or an array of recognized symbols and one-character strings
+(escaped charactersare okay, e.g. <code>[:up, "1", "2", "3", "\t"]</code>):</p>
 
-<div class="highlight"><pre><span class="o">&gt;</span> <span class="ss">Konamio</span><span class="p">:</span><span class="ss">:Sequence</span><span class="o">::</span><span class="no">Requisition</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
-    <span class="ss">sequence</span><span class="p">:</span>     <span class="s2">"a"</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="s2">"z"</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span><span class="o">.</span><span class="n">reverse</span><span class="p">,</span>
-    <span class="ss">prompt</span><span class="p">:</span>       <span class="s2">"Say the alphabet backwards"</span><span class="p">,</span>
-    <span class="ss">confirmation</span><span class="p">:</span> <span class="s2">"Okay, you can go"</span>
-  <span class="p">})</span><span class="o">.</span><span class="n">execute!</span>
-<span class="no">Say</span> <span class="n">the</span> <span class="n">alphabet</span> <span class="n">backwards</span>
-<span class="no">Okay</span><span class="p">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">go</span>
-<span class="o">=&gt;</span> <span class="c1">#&lt;Konamio::Result:0x9265788</span>
-  <span class="vi">@data</span><span class="o">=</span><span class="p">{</span><span class="ss">:data</span><span class="o">=&gt;</span><span class="p">{</span><span class="ss">:confirmation</span><span class="o">=&gt;</span><span class="s2">"Okay, you can go"</span><span class="p">}},</span>
-  <span class="vi">@success</span><span class="o">=</span><span class="kp">true</span><span class="o">&gt;</span>
-</pre></div>
+<pre><code>&gt; Konamio::Sequence::Requisition.new({
+    sequence:     "a".upto("z").to_a.reverse,
+    prompt:       "Say the alphabet backwards",
+    confirmation: "Okay, you can go"
+  }).execute!
+Say the alphabet backwards
+Okay, you can go
+=&gt; #&lt;Konamio::Result:0x9265788
+  @data={:data=&gt;{:confirmation=&gt;"Okay, you can go"}},
+  @success=true&gt;
+</code></pre>
 
 <h4>
 <a name="output" class="anchor" href="#output"><span class="octicon octicon-link"></span></a>Output</h4>
 
-<p>There are three dialogs that Konamio might send to standard out.</p>
+<p>There are three dialogs that Konamio might send to stdout.</p>
 
 <ol>
 <li>
@@ -89,7 +92,11 @@ Good job, you.
 <h4>
 <a name="success" class="anchor" href="#success"><span class="octicon octicon-link"></span></a>Success!</h4>
 
-<p>It would be boring if all Konamio did was return a result object. In fact, <code>Konamio::Sequence::Requisition#execute!</code> takes a block, and will execute that block when the sequence has been successfully entered. You're limited only by your imagination and the context of your application.</p>
+<p>It would be boring if all Konamio did was return a result object. That's why
+<code>Konamio::Sequence::Requisition#execute!</code> <strong>takes a block</strong>, and will execute
+that block when the sequence has been successfully entered. You're limited only
+by your imagination and the context of your application. Konamio will supply
+the value of the sequence to the block.</p>
 
 <p>The following code would prompt the user to enter the konami code twice:</p>
 
@@ -115,6 +122,11 @@ Good job, you.
 </pre></div>
 
 <p>to require console users to enter the konami code. This funny trick obviously does not provide any real protection, but it would certainly make for a nasty practical joke.</p>
+
+<h2>
+<a name="more-information" class="anchor" href="#more-information"><span class="octicon octicon-link"></span></a>More information</h2>
+
+<p>For more information, see the <a href="http://rubydoc.info/gems/konamio/1.0.1/frames">docs</a></p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/rthbound">rthbound</a></p>
