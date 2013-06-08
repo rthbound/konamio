@@ -26,9 +26,9 @@ Good job, you.
 
 #### Sequences
 
-You can configure it to listen for any ascii based sequence you want. This can be specified using a string (`"foobar"`) or an array of recognized symbols and one character strings (escaped characters are okay, e.g. `[:up, "1", "2", "3", "\t"]`):
+You can configure it to listen for any ascii based sequence you want using the `:sequence` option. This can be specified using a string (`"foobar"`) or an array of recognized symbols and one character strings (escaped characters are okay, e.g. `[:up, "1", "2", "3", "\t"]`):
 
-```ruby
+```
 > Konamio::Sequence::Requisition.new({
     sequence:     "a".upto("z").to_a.reverse,
     prompt:       "Say the alphabet backwards",
