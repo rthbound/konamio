@@ -33,8 +33,6 @@ describe Konamio::Sequence::Listener do
     @input.expect(:getch, "")
     @input.expect(:getch, "")
     result = @subject.new(sequence: @sequence, input: @input).execute!
-
-    assert @input.verify
     assert !result.successful?
   end
 end
