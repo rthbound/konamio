@@ -59,4 +59,13 @@ describe Konamio::Sequence::Requisition do
     @speaker.expect(:new,  @speaker_instance,  [{ prompt: "konamio!", output: @output }])
     assert @subject.new(@options).execute! { @speaker.new(prompt: "konamio!", output: @output) }
   end
+
+  it "will pass the sequence to the block" do
+    truth = false
+    assert @subject.new(@options).execute! { |seq|
+      truth = !truth if @sequence == seq
+    }
+
+    assert truth
+  end
 end

@@ -9,7 +9,7 @@ describe Konamio::Sequence::Requisition do
       prompt:   @prompt           = false,
       listener: @listener         = MiniTest::Mock.new,
       speaker:  @speaker          = MiniTest::Mock.new,
-      sequence: @sequence         = ["a"],
+      sequence: @sequence         = "ab",
       confirmation: @confirmation = false,
       cancellation: false
     }
@@ -22,10 +22,6 @@ describe Konamio::Sequence::Requisition do
     @listener_result   = MiniTest::Mock.new
     @listener_instance.expect(:execute!, @listener_result)
 
-    # The @listener_result contains some data
-    @data_hash = MiniTest::Mock.new
-    @listener_result.expect(:data, @data_hash)
-    @data_hash.expect(:[], :negative, [:sequence])
   end
 
   it "can be initialized" do
@@ -37,6 +33,27 @@ describe Konamio::Sequence::Requisition do
   end
 
   it "can be cancelled" do
+    # The @listener_result contains some data
+    @data_hash = MiniTest::Mock.new
+    @listener_result.expect(:data, @data_hash)
+    @data_hash.expect(:[], :negative, [:sequence])
+
+    assert !@subject.new(@options).execute!.successful?
+  end
+
+  it "will listen for the next character" do
+    # This will happen a second time
+    @listener.expect(:new, @listener_instance, [{ sequence: "b", input: @input }])
+    @listener_instance.expect(:execute!, @listener_result)
+
+    # The @listener_result contains some data
+    @data_hash = MiniTest::Mock.new
+    @listener_result.expect(:data, @data_hash)
+    @data_hash.expect(:[], "b", [:sequence])
+
+    @listener_result.expect(:data, @data_hash)
+    @data_hash.expect(:[], :negative, [:sequence])
+
     assert !@subject.new(@options).execute!.successful?
   end
 end
