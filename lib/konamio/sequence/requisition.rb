@@ -1,15 +1,21 @@
 module Konamio
   module Sequence
-    class Requisition < PayDirt::Base
+    class Requisition < Konamio::Base
       include Konamio::KeyMap
+      # @param [Hash] options The group of options for the sequence requisition
+      # @option options [Class] :speaker (Konamio::Prompt) You could theoretically replace this with a class that responds to #new with an instance that responds to #execute! Not sure why you would.
+      # @option options [String] :prompt ("Enter konami code (or hit escape)") override with a falsey value to skip prompt dialog
+      # @option options [String] :confirmation ("Enter konami code (or hit escape)") override with a falsey value to skip confirmation dialog
+      # @option options [String] :cancellation ("Goodbye!") override with a falsey value to skip cancellation dialog
+      # @option options [Array, String] :sequence ([:up,:up,:down,:down,:left,:right,:left,:right,"B","A"])
       def initialize(options={})
         options = {
-          output:       $stdout,
           input:        $stdin,
-          speaker:      Konamio::Prompt,
+          output:       $stdout,
           listener:     Konamio::Sequence::Listener,
-          sequence:     [:up,:up,:down,:down,:left,:right,:left,:right,"B","A"],
+          speaker:      Konamio::Prompt,
           prompt:       "Enter konami code (or hit escape)",
+          sequence:     [:up,:up,:down,:down,:left,:right,:left,:right,"B","A"],
           confirmation: "Good job, you.",
           cancellation: "Goodbye!"
         }.merge(options)
@@ -17,23 +23,39 @@ module Konamio
         load_options(:sequence, options)
       end
 
+      # @api public
+      # @yieldreturn The result of a block, if supplied
+      # @return Konamio::Result
       def execute! &block
         prompt
+
         result = listen(@sequence)
         yield if block_given? && result.successful?
-        return result
+
+        result
       end
 
-      def prompt(prompt = @prompt)
-        @speaker.new(prompt: prompt, output: @output).execute!
+      private
+      # @api private
+      # @param prompt
+      # @return [Konamio::Result] unless running silently
+      # @return [Boolean] false if running silently
+      def prompt(prompt = @prompt, speaker = @speaker)
+        !!prompt && speaker.new(prompt: prompt, output: @output).execute!
       end
 
+      # @api private
+      # @param [String, Array<String,Symbol>] sequence The sequence you want to require. When providing an array, each element must be a recognized symbol or the string representation of an ascii character.
+      # @return [Konamio::Result]
       def listen(sequence)
         listener = @listener.new(sequence: sequence, input: @input)
         received = listener.execute!
         signal   = received.data[:sequence]
 
-        prompt(@confirmation) and return result(true, data: { confirmation: @confirmation }) if signal.empty?
+        if signal.empty?
+          prompt(@confirmation)
+          return result true, data: { confirmation: @confirmation }
+        end
 
         case signal
         when :negative
@@ -44,27 +66,16 @@ module Konamio
           listen(@sequence)
         when sequence[1..-1]
           listen signal
-        else
-          result(false, data: { confirmation: "Unexpected termination" })
         end
-        #if received.successful?
-        #  if received.data[:sequence].empty?
-        #    prompt(@confirmation)
-        #    result(true, data: { confirmation: @confirmation })
-        #  else
-        #    listen(received.data[:sequence])
-        #  end
-        #elsif received.data[:terminate]
-        #  prompt("Goodbye!")
-        #  result(false, data: { confirmation: :negative })
-        #else
-        #  prompt
-        #  listen(@sequence)
-        #end
       end
 
+      # @api private
+      # @param [Boolean] success whether the expected sequence was received.
+      # @param [Hash] ({}) data
+      # @option data [String, Boolean] :confirmation A message about how the program exited.
+      # @return [Konamio::Result]
       def result(success, data={})
-        PayDirt::Result.new(success: success, data: data)
+        Konamio::Result.new(success: success, data: data)
       end
     end
   end
