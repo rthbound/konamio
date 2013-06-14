@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Konamio::VERSION
   s.authors     = ["Tad Hosford"]
   s.email       = ["tad.hosford@gmail.com"]
-  s.homepage    = "https://rthbound.github.io/konamio"
+  s.homepage    = "http://rthbound.com/konamio"
   s.summary     = "The Ruby Konami code gem."
   s.description = "Tell it which sequence to listen for and what to do when the sequence is received."
 
