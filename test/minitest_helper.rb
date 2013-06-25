@@ -1,8 +1,8 @@
 # Testing frameworks
-#require 'coveralls'
-#Coveralls.wear!
-require 'simplecov'
-SimpleCov.start
+require 'coveralls'
+Coveralls.wear!
+#require 'simplecov'
+#SimpleCov.start
 
 require "minitest/autorun"
 
