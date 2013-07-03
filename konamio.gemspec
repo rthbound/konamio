@@ -7,15 +7,15 @@ Gem::Specification.new do |s|
   s.version     = Konamio::VERSION
   s.authors     = ["Tad Hosford"]
   s.email       = ["tad.hosford@gmail.com"]
-  s.homepage    = "http://rthbound.com/konamio"
+  s.homepage    = "http://ea.rthbound.com/konamio"
   s.summary     = "The Ruby Konami code gem."
-  s.description = "Tell it which sequence to listen for and what to do when the sequence is received."
+  s.description = "Use Konamio in your Ruby or Rails console and be prompted to enter the Konami code. Pass in a block to tell Konamio what to do when the code has been entered. Konamio can optionally be told to listen for any ASCII based sequence (it's not limited to the konami code)."
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test}/*`.split("\n")
   s.require_paths = ["lib"]
 
-  s.add_runtime_dependency "pay_dirt", "1.0.0"
+  s.add_runtime_dependency "pay_dirt", "~> 1.0.0"
   s.add_development_dependency "minitest"
   s.add_development_dependency "pry"
   s.add_development_dependency "rake"
