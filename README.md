@@ -84,3 +84,7 @@ Konamio::Sequence::Requisition.new(prompt: false, confirmation: false, cancellat
 ```
 
 to require console users to enter the konami code. This funny trick obviously does not provide any real protection, but it would certainly make for a nasty practical joke.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/rthbound/konamio/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
